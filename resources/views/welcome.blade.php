@@ -213,12 +213,7 @@
           <router-link class="dropdown-item" to="/salary">Two</router-link>
         </div>
       </li>
-      <li class="nav-item">
-        <router-link class="nav-link" to="#">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Settings</span>
-        </router-link>
-      </li>
+     
     </ul>
 
      <div id="content-wrapper">
