@@ -54869,7 +54869,7 @@ var render = function() {
                                 {
                                   staticClass: "card",
                                   staticStyle: {
-                                    width: "9rem",
+                                    width: "100px",
                                     height: "180px"
                                   }
                                 },
@@ -54887,6 +54887,7 @@ var render = function() {
                                     _c("small", { staticClass: "card-title" }, [
                                       _vm._v(_vm._s(product.product_name))
                                     ]),
+                                    _c("br"),
                                     _vm._v(" "),
                                     product.product_quantity >= 1
                                       ? _c(
@@ -54983,10 +54984,7 @@ var render = function() {
                                 "div",
                                 {
                                   staticClass: "card",
-                                  staticStyle: {
-                                    width: "9rem",
-                                    height: "180px"
-                                  }
+                                  staticStyle: { width: "100", height: "180px" }
                                 },
                                 [
                                   _c("img", {
@@ -55002,6 +55000,7 @@ var render = function() {
                                     _c("small", { staticClass: "card-title" }, [
                                       _vm._v(_vm._s(getproduct.product_name))
                                     ]),
+                                    _c("br"),
                                     _vm._v(" "),
                                     getproduct.product_quantity >= 1
                                       ? _c(

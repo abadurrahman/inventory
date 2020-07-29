@@ -186,10 +186,10 @@
                     <div class="row">
                       <div class="col-lg-3 col-md-4 col-sm-6 col-6" v-for="product in filtersearch" :key="product.id">
                        <button class="btn bt-sm" @click.prevent="AddToCart(product.id)">
-                        <div class="card" style="width: 9rem; height: 180px;">
+                        <div class="card" style="width: 100px; height: 180px;">
                           <img :src="product.image" class="card-img-top" style="height: 100px; width: 100px;">
                           <div class="card-body">
-                            <small class="card-title">{{ product.product_name }}</small>
+                            <small class="card-title">{{ product.product_name }}</small><br>
                             <span class="badge badge-success" v-if="product.product_quantity >= 1"> Availble ({{ product.product_quantity }}) </span>
                             <span class="badge badge-danger" v-else="">Stock Out</span>
                           </div>
@@ -205,10 +205,10 @@
                     <div class="row">
                       <div class="col-lg-3 col-md-4 col-sm-6 col-6" v-for="getproduct in getfiltersearch" :key="getproduct.id">
                        <button class="btn btn-sm" @click.prevent="AddToCart(getproduct.id)">
-                        <div class="card" style="width: 9rem; height: 180px;">
+                        <div class="card" style="width: 100; height: 180px;">
                           <img :src="getproduct.image" class="card-img-top" style="height: 100px; width: 100px;">
                           <div class="card-body">
-                            <small class="card-title">{{ getproduct.product_name }}</small>
+                            <small class="card-title">{{ getproduct.product_name }}</small><br>
                             <span class="badge badge-success" v-if="getproduct.product_quantity >= 1"> Availble ({{ getproduct.product_quantity }}) </span>
                             <span class="badge badge-danger" v-else="">Stock Out</span>
                           </div>
