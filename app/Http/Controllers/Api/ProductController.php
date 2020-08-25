@@ -2,170 +2,78 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use DB;
+use Illuminate\Http\Request;
 use App\Product;
 use Image;
+use DB;
+
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        $product=DB::table('products')
-                ->join('categories','products.category_id','categories.id')
-                ->join('suppliers','products.supplier_id','suppliers.id')
-                ->select('categories.category_name','suppliers.name','products.*')
-                ->orderBy('products.id','DESC')
-                ->get();
-        return response()->json($product);        
-    }
-
-   
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-         $validatedData = $request->validate([
-         'product_name' => 'required|max:255',
-         'product_code' => 'required|unique:products|max:255',
-         'category_id' => 'required',
-         'supplier_id' => 'required',
-         'buying_price' => 'required',
-         'root' => 'required',
-         'selling_price' => 'required',
-         'buying_date' => 'required',
-         'product_quantity' => 'required',
-        ]);
-
-            if($request->image){
-                   $position = strpos($request->image, ';');
-                   $sub=substr($request->image, 0 ,$position);
-                   $ext=explode('/', $sub)[1];
-                   $name=time().".".$ext;
-                   $img=Image::make($request->image)->resize(240,200);
-                   $upload_path='backend/product/';
-                   $image_url=$upload_path.$name;
-                   $img->save($image_url);
-
-                   $product = new Product;
-                   $product->product_name = $request->product_name;
-                   $product->product_code = $request->product_code;
-                   $product->category_id = $request->category_id;
-                   $product->supplier_id = $request->supplier_id;
-                   $product->buying_price = $request->buying_price;
-                   $product->root = $request->root;
-                   $product->selling_price = $request->selling_price;
-                   $product->buying_date = $request->buying_date;
-                   $product->product_quantity = $request->product_quantity;
-                   $product->image =  $image_url;
-                   $product->save();
-            }else{
-                   $product = new Product;
-                   $product->product_name = $request->product_name;
-                   $product->product_code = $request->product_code;
-                   $product->category_id = $request->category_id;
-                   $product->supplier_id = $request->supplier_id;
-                   $product->root = $request->root;
-                   $product->buying_price = $request->buying_price;
-                   $product->selling_price = $request->selling_price;
-                   $product->buying_date = $request->buying_date;
-                   $product->product_quantity = $request->product_quantity;
-                   $product->save();
-            }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $product=DB::table('products')->where('id',$id)->first();
+        $product=Product::all();
+        //$category=DB::table('categories')->get();
         return response()->json($product);
     }
 
-  
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    public function store(Request $request)
     {
-        $validatedData = $request->validate([
-         'product_name' => 'required|max:255',
-         'product_code' => 'required|max:255',
-         'category_id' => 'required',
-         'supplier_id' => 'required',
-         'buying_price' => 'required',
-         'root' => 'required',
-         'selling_price' => 'required',
-         'product_quantity' => 'required',
-        ]);
-
         $data=array();
-        $data['product_name']=$request->product_name;
-        $data['product_code']=$request->product_code;
-        $data['category_id']=$request->category_id;
-        $data['supplier_id']=$request->supplier_id;
-        $data['root']=$request->root;
-        $data['buying_price']=$request->buying_price;
-        $data['selling_price']=$request->selling_price;
-        $data['buying_date']=$request->buying_date;
-        $data['product_quantity']=$request->product_quantity;
-        $image=$request->newphoto;
-      if ($image) {
-           $position = strpos($image, ';');
-           $sub=substr($image, 0 ,$position);
-           $ext=explode('/', $sub)[1];
-           $name=time().".".$ext;
-           $img=Image::make($image)->resize(240,200);
-           $upload_path='backend/product/';
-           $image_url=$upload_path.$name;
-           $success=$img->save($image_url);
-       if  ($success) {
-             $data['image']=$image_url;
-             $img=DB::table('products')->where('id',$id)->first();
-             $image_path = $img->image;
-             $done=unlink($image_path);
-             $user=DB::table('products')->where('id',$id)->update($data); 
-           }
-       }else{
-           $oldlogo=$request->image;       
-           $data['image']=$oldlogo;  
-           DB::table('products')->where('id',$id)->update($data); 
-        
-       }
-    }
+    	$data['product_name']=$request->product_name;
+    	$data['product_code']=$request->product_code;
+    	$data['product_quantity']=$request->product_quantity;
+    	$data['category_id']=$request->category_id;
+    	$data['subcategory_id']=$request->subcategory_id;
+    	$data['brand_id']=$request->brand_id;
+    	$data['product_size']=$request->product_size;
+    	$data['product_color']=$request->product_color;
+    	$data['selling_price']=$request->selling_price;
+    	$data['product_details']=$request->product_details;
+    	$data['video_link']=$request->video_link;
+    	$data['newarrivals_one']=$request->newarrivals_one;
+    	$data['newarrivals_two']=$request->newarrivals_two;
+    	$data['newarrivals_three']=$request->newarrivals_three;
+    	$data['newarrivals_four']=$request->newarrivals_four;
+    	$data['newarrivals_five']=$request->newarrivals_five;
+    	$data['latest_design']=$request->latest_design;
+        $data['special_offer']=$request->special_offer;
+        $data['collection']=$request->collection;
+    	$data['status']=1;
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-       $product=DB::table('products')->where('id',$id)->first();
-       $image=$product->image;
-       if ($image) {
-          unlink($image);
-          DB::table('products')->where('id',$id)->delete();
-       }else{
-        DB::table('products')->where('id',$id)->delete();
-       }
+
+    	$image_one=$request->image_one;
+        $image_one_1=$request->image_one_1;
+    	$image_two=$request->image_two;
+    	$image_three=$request->image_three;
+        $image_four=$request->image_four;
+
+    if($image_one && $image_one_1 && $image_two && $image_three && $image_four){
+            $image_one_name= hexdec(uniqid()).'.'.$image_one->getClientOriginalExtension();
+                Image::make($image_one)->resize(230,300)
+                ->save('public/product/'.$image_one_name);
+                $data['image_one']='public/product/'.$image_one_name;
+
+            $image_one_1_name= hexdec(uniqid()).'.'.$image_one_1->getClientOriginalExtension();
+                Image::make($image_one_1)->resize(230,300)->save('public/product/'.$image_one_1_name);
+                $data['image_one_1']='public/product/'.$image_one_1_name;   
+
+            $image_two_name= hexdec(uniqid()).'.'.$image_two->getClientOriginalExtension();
+                Image::make($image_two)->resize(230,300)->save('public/product/'.$image_two_name);
+                $data['image_two']='public/product/'.$image_two_name; 
+
+            $image_three_name= hexdec(uniqid()).'.'.$image_three->getClientOriginalExtension();
+                Image::make($image_three)->resize(230,300)->save('public/product/'.$image_three_name);
+                $data['image_three']='public/product/'.$image_three_name; 
+
+            $image_four_name= hexdec(uniqid()).'.'.$image_four->getClientOriginalExtension();
+                Image::make($image_four)->resize(230,300)->save('public/product/'.$image_four_name);
+                $data['image_four']='public/product/'.$image_four_name;    
+                
+                $product=DB::table('products')
+                          ->insert($data);
+                    
+        }
+   
     }
 }

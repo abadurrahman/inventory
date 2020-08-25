@@ -29,7 +29,7 @@
 
 
         <div class="mg-t-40 tx-center">Already have an account?
-        <router-link to="/" class="tx-info">Log In</router-link></div>
+        <router-link to="admin" class="tx-info">Log In</router-link></div>
       </div><!-- login-wrapper -->
     </div><!-- d-flex -->
 </div>	
@@ -41,7 +41,7 @@
  export default { 
   created(){
     if (User.loggedIn()) {
-      this.$router.push({name : 'home'})
+      this.$router.push({name : 'admin'})
     }
   },
   data(){
@@ -64,7 +64,7 @@
           type: 'success',
           title: 'Signed in successfully'
         })
-        this.$router.push({ name : 'home'})
+        this.$router.push({ name : 'admin'})
       })
       .catch(error => this.errors = error.response.data.errors)
     }

@@ -1,98 +1,87 @@
  <template>
     <div>
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">All Product</li>
-        </ol>
-        <!-- Icon Cards-->
-       <div class="row card container">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Product Insert 
-            <router-link to="/store-product" class="btn btn-sm btn-info" id="add_new"> Add New</router-link>
-          </div>
-          <div class="card-body">
-            <div class="card-body">
-              <div class="table-responsive">
-                <label>Search</label>
-               <input type="text" v-model="searchTerm" class="form-control" style="width:200px; "><br>
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
 
-                  <thead>
-                    <tr>
-                      <th>Name</th> 
-                      <th>Code</th>
-                      <th>Photo</th>
-                      <th>Category</th>
-                      <th>Buying Price</th>
-                      <th>Selling Price</th>
-                      <th>Root</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                
-                  <tbody>
+  <!-- ########## START: MAIN PANEL ########## -->
+    <div class="sl-mainpanel">
+        <div class="sl-pagebody">
+        <div class="sl-page-title">
+          <h5>Coupon Table</h5>
+        </div><!-- sl-page-title -->
 
-                    <tr v-for="product in filtersearch" :key="product.id">
-                      <td>{{ product.product_name}}</td>
-                      <td>{{ product.product_code}}</td>
-                      <td><img :src="product.image" id="em_photo"></td>
-                      <td>{{ product.category_name }}</td>
-                      <td>{{ product.buying_price }}</td>
-                      <td>{{ product.selling_price }}</td>
-                      <td>{{ product.root }}</td>
-                      <td>
-                        <router-link :to="{name: 'edit-product', params:{id: product.id} }" class="btn btn-sm btn-info">Edit</router-link>
-                        <a @click="deleteProduct(product.id)" class="btn btn-sm btn-danger">Delete</a>
-                      </td>
-                    </tr>
-        
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-       </div>
+        <div class="card pd-20 pd-sm-40">
+          <h6 class="card-body-title">Coupon List
+          <router-link to="/add-product" class="btn btn-sm btn-warning" style="float: right;" data-toggle="modal" data-target="#modaldemo3">Add New</router-link>
+          </h6>
+           
+           <br>
+          <div class="table-wrapper">
+            <table id="datatable1" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                  <th class="wd-15p">ID</th>
+                  <th class="wd-15p">Product Name</th>
+                  <th class="wd-15p">Logo</th>
+                  <th class="wd-20p">Action</th>               
+                </tr>
+              </thead>
+              <tbody>
+               
+                <tr v-for="(brand,index) in filtersearch" :key="brand.id">
+                  <td>{{index+1}}</td>
+                  <td>{{ brand.brand_name }}</td>
+                  <td><img :src="brand.photo" id="em_photo"></td>
+                  <td>
+                    <router-link :to="{name: 'edit-brand', params:{id: brand.id} }" class="btn btn-sm btn-info">Edit</router-link>
+                    <a @click="deleteBrand(brand.id)" class="btn btn-sm btn-danger">Delete</a>
+                  </td>               
+                </tr>   
+               
+              </tbody>
+            </table>
+          </div><!-- table-wrapper -->
+        </div><!-- card -->    
+     </div>  
    </div>
+ </div>
+   
+
 </template>
+
 
 <script>
 
     export default {
-    	mounted(){
+      mounted(){
             if (!User.loggedIn()) {
-               this.$router.push({ name:'/' })
+               this.$router.push({ name:'admin' })
             } 
         },
 
         created(){
-         this.allProduct();
+        this.allBrand();
         },
 
         data(){
           return{
-            products:[],
-            searchTerm:'',         
+            brands:[],
+            searchTerm:''        
           }
         },
        computed:{
          filtersearch(){
-          return this.products.filter(product => {
-             return product.product_name.match(this.searchTerm)
+          return this.brands.filter(brand => {
+             return brand.brand_name.match(this.searchTerm)
            })
          }
        },
         methods:{
-          allProduct(){
-            axios.get('/api/product/')
-            .then(({data}) => (this.products = data))
+          allBrand(){
+            axios.get('/api/all-brand/')
+            .then(({data}) => (this.brands = data))
             .catch()
           },
-          deleteProduct(id){
+          
+        deleteBrand(id){
             Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -103,14 +92,14 @@
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.value) {
-              axios.delete('/api/product/'+id)
+              axios.get('/api/delete-brand/'+id)
               .then(()=>{
-                 this.products = this.products.filter(product =>{
-                    return product.id !=id
+                 this.brands = this.brands.filter(brand =>{
+                    return brand.id !=id
                  })
               })
               .catch(()=>{
-                 this.$router.push({name: 'product'})
+                 this.$router.push({name: 'all-brand'})
               })
               Swal.fire(
                 'Deleted!',
@@ -123,19 +112,12 @@
         },
       
     }
-     
-  
-  
+      
 </script>
 
 <style>
-	
-#add_new{
-	float: right;
+  #em_photo{
+  height: 45px;
+  width: 50px;
 }
-#em_photo{
-  height: 40px;
-  width: 40px;
-}
-
 </style>

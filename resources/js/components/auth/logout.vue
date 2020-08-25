@@ -12,7 +12,7 @@
           type: 'success',
           title: 'Successfully Log Out!'
         })
-    this.$router.push({ name: '/' })
+    this.$router.push({ name: 'admin' })
   }
 
 

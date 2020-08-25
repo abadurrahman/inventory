@@ -1,62 +1,60 @@
  <template>
     <div>
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">All Category</li>
-        </ol>
-        <!-- Icon Cards-->
-       <div class="row card container">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Category Insert 
-            <router-link to="/store-category" class="btn btn-sm btn-info" id="add_new"> Add New</router-link>
-          </div>
-          <div class="card-body">
-            <div class="card-body">
-              <div class="table-responsive">
-                <label>Search</label>
-               <input type="text" v-model="searchTerm" class="form-control" style="width:200px; "><br>
-                <table class="table table-bordered" id="" width="100%" cellspacing="0">
 
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                
-                  <tbody>
+  <!-- ########## START: MAIN PANEL ########## -->
+    <div class="sl-mainpanel">
+        <div class="sl-pagebody">
+        <div class="sl-page-title">
+          <h5>Category Table</h5>
+        </div><!-- sl-page-title -->
 
-                    <tr v-for="category in filtersearch" :key="category.id">
-                      <td>{{ category.category_name }}</td>
-                     
-                      <td>
-                        <router-link :to="{name: 'edit-category', params:{id: category.id} }" class="btn btn-sm btn-info">Edit</router-link>
-                        <a @click="deleteCategory(category.id)" class="btn btn-sm btn-danger">Delete</a>
-                      </td>
-                    </tr> 
-        
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-          </div>
-       </div>
+        <div class="card pd-20 pd-sm-40">
+          <h6 class="card-body-title">Category List
+          <router-link to="/add-category" class="btn btn-sm btn-warning" style="float: right;" data-toggle="modal" data-target="#modaldemo3">Add Category</router-link>
+          </h6>
+           
+           <br>
+          <div class="table-wrapper">
+            <table id="datatable1" class="table display responsive nowrap">
+              <thead>
+                <tr>
+                  <th class="wd-15p">ID</th>
+                  <th class="wd-15p">Category Name</th>
+                  <th class="wd-20p">Action</th>               
+                </tr>
+              </thead>
+              <tbody>
+               
+                <tr v-for="(category,index) in filtersearch" :key="category.id">
+                  <td>{{index+1}}</td>
+                  <td>{{ category.category_name }}</td>
+                  <td>
+                    <router-link :to="{name: 'edit-category', params:{id: category.id} }" class="btn btn-sm btn-info">edit</router-link>
+                    <a @click="deleteCategory(category.id)" class="btn btn-sm btn-danger">Delete</a>
+                  </td>               
+                </tr>   
+               
+              </tbody>
+            </table>
+          </div><!-- table-wrapper -->
+        </div><!-- card -->    
+     </div>  
    </div>
+ </div>
+   
+
 </template>
+
 
 <script>
 
     export default {
-    	mounted(){
+      mounted(){
             if (!User.loggedIn()) {
-               this.$router.push({ name:'/' })
+               this.$router.push({ name:'admin' })
             } 
         },
+
 
         created(){
         this.allCategory();
@@ -77,7 +75,7 @@
        },
         methods:{
           allCategory(){
-            axios.get('/api/category/')
+            axios.get('/api/all-category/')
             .then(({data}) => (this.categories = data))
             .catch()
           },
@@ -92,14 +90,14 @@
             confirmButtonText: 'Yes, delete it!'
           }).then((result) => {
             if (result.value) {
-              axios.delete('/api/category/'+id)
+              axios.get('/api/delete-category/'+id)
               .then(()=>{
                  this.categories = this.categories.filter(category =>{
                     return category.id !=id
                  })
               })
               .catch(()=>{
-                 this.$router.push({name: 'category'})
+                 this.$router.push({name: 'all-category'})
               })
               Swal.fire(
                 'Deleted!',
@@ -117,14 +115,6 @@
   
 </script>
 
-<style>
-	
-#add_new{
-	float: right;
-}
-#em_photo{
-  height: 40px;
-  width: 40px;
-}
-
+<style type="text/css">
+  
 </style>

@@ -1,7 +1,5 @@
 <?php
 
-
-
 Route::group([
 
     'middleware' => 'api',
@@ -17,35 +15,31 @@ Route::group([
 
 });
 
-Route::apiResource('/employee','Api\EmployeeController');
-Route::apiResource('/supplier','Api\SupplierController');
-Route::apiResource('/category','Api\CategoryController');
-Route::apiResource('/product','Api\ProductController');
-Route::apiResource('/expense','Api\ExpenseController');
-Route::apiResource('/customer','Api\CustomerController');
+//category
+Route::post('/category','Api\CategoryController@store');
+Route::get('/all-category','Api\CategoryController@index');
+Route::get('/delete-category/{id}','Api\CategoryController@destroy');
+Route::get('/show-category/{id}','Api\CategoryController@show');
+Route::post('/update-category/{id}','Api\CategoryController@update');
+//subcategory
+Route::post('/subcategory','Api\SubcategoryController@store');
+Route::get('/all-subcategory','Api\SubcategoryController@index');
+Route::get('/delete-subcategory/{id}','Api\SubcategoryController@destroy');
+Route::get('/show-subcategory/{id}','Api\SubcategoryController@show');
+Route::post('/update-subcategory/{id}','Api\SubcategoryController@update');
+//coupon
+Route::post('/coupon','Api\CouponController@store');
+Route::get('/all-coupon','Api\CouponController@index');
+Route::get('/delete-coupon/{id}','Api\CouponController@destroy');
+Route::get('/show-coupon/{id}','Api\CouponController@show');
+Route::post('/update-coupon/{id}','Api\CouponController@update');
+//brand
+Route::post('/brand','Api\BrandController@store');
+Route::get('/all-brand','Api\BrandController@index');
+Route::get('/delete-brand/{id}','Api\BrandController@destroy');
+Route::get('/show-brand/{id}','Api\BrandController@show');
+Route::post('/update-brand/{id}','Api\BrandController@update');
+//product
+Route::post('/product','Api\ProductController@store');
+Route::get('/all-product','Api\ProductController@index');
 
-
-Route::Post('/salary/paid/{id}','Api\SalaryController@Paid');
-Route::Get('/salary','Api\SalaryController@AllSalary');
-Route::Get('/salary/view/{id}','Api\SalaryController@ViewSalary');
-Route::Get('/edit/salary/{id}','Api\SalaryController@EditSalary');
-Route::Post('/salary/update/{id}','Api\SalaryController@SalaryUpdate');
-Route::Post('/stock/update/{id}','Api\SalaryController@StockUpdate');
-
-
-Route::get('/getting/product/{id}','Api\PosController@GetProduct');
-
-Route::get('/addTocart/{id}','Api\CartController@AddToCart');
-Route::get('/cart/product','Api\CartController@CartProduct');
-Route::get('/remove/cart/{id}','Api\CartController@removeCart');
-Route::get('/increment/{id}','Api\CartController@Increment');
-Route::get('/decrement/{id}','Api\CartController@Decrement');
-Route::get('/vats','Api\CartController@Vats');
-
-Route::post('/orderdone','Api\PosController@OrderDone');
-
-Route::get('/orders','Api\OrderController@TodayOrder');
-Route::get('/order/details/{id}','Api\OrderController@OrderDetails');
-Route::get('/order/orderdetails/{id}','Api\OrderController@OrderDetailsAll');
-Route::post('/search/order/','Api\OrderController@SearchOrderDate');
-Route::post('/search/month/','Api\OrderController@SearchMonth');

@@ -1,203 +1,355 @@
- <template>
-    <div>
-        <!-- Breadcrumbs-->
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item">
-            <a href="#">Dashboard</a>
-          </li>
-          <li class="breadcrumb-item active">Product</li>
-        </ol>
-        <!-- Icon Cards-->
-       <div class="row container">
-         <div class="card col-lg-12">
-          <div class="card-header">
-            <i class="fas fa-chart-area"></i>
-            Product Insert 
-            <router-link to="/product" class="btn btn-sm btn-info" id="add_new"> All Product</router-link>
-          </div>
-          <div class="card-body">
-          	  <form @submit.prevent="productInsert" enctype="multipart/form-data">
+<template>
+<div>
+  
+<div class="sl-mainpanel">
+      <nav class="breadcrumb sl-breadcrumb">
+        <a class="breadcrumb-item" href="#">Starlight</a>
+        <span class="breadcrumb-item active">Product Section</span>
+      </nav>
+      <div class="sl-pagebody">
+           <div class="card pd-20 pd-sm-40">
+          <h6 class="card-body-title">New Product Add <a href="#" class="btn btn-info btn-sm pull-right">All Product</a></h6>
+          <p class="mg-b-20 mg-sm-b-30">New product add form</p>
+          <form enctype="multipart/form-data">
+           
+           <div class="form-layout">
+            <div class="row mg-b-25">
+              <div class="col-lg-4">
                 <div class="form-group">
-	              <div class="form-row">
-	               <div class="col-md-6">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.product_name" class="form-control"   required="">
-	                  <small class="text-danger" v-if="errors.product_name">{{ errors.product_name[0] }}</small>
-	                  <label for="firstName">Product Name</label>
-	                </div>
-	               </div>
-	               <div class="col-md-6">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.product_code" class="form-control" >
-	                  <small class="text-danger" v-if="errors.product_code">{{ errors.product_code[0] }}</small>
-	                  <label for="lastName">Product Code</label>
-	                </div>
-	               </div>
-	             </div>
-	          </div>
-	          <div class="">
-	              <div class="row">
-	               <div class="col-md-6">
-	                  <div class="form-group">
-					    <label for="exampleFormControlSelect1">Category</label>
-					    <select class="form-control" id="exampleFormControlSelect1" v-model="form.category_id">
-					      <option :value="category.id" v-for="category in categories">{{ category.category_name }}</option>
-					    </select>
-					    <small class="text-danger" v-if="errors.category_id">{{ errors.category_id[0] }}</small>
-					  </div>
-	               </div>
-	               <div class="col-md-6">
-	                  <div class="form-group">
-					    <label for="exampleFormControlSelect1">Supplier</label>
-					    <select class="form-control" id="exampleFormControlSelect1" v-model="form.supplier_id">
-					      <option :value="supplier.id" v-for="supplier in suppliers">{{ supplier.name }}</option>
-					    </select>
-					    <small class="text-danger" v-if="errors.supplier_id">{{ errors.supplier_id[0] }}</small>
-					  </div>
-	               </div>
-	             </div>
-	          </div><br>
-	          <div class="form-group">
-	              <div class="form-row">
-	               <div class="col-md-4">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.root" class="form-control"  autofocus="autofocus" required="">
-	                  <small class="text-danger" v-if="errors.root">{{ errors.root[0] }}</small>
-	                  <label for="firstName">Root</label>
-	                </div>
-	               </div>
-	               <div class="col-md-4">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.buying_price" class="form-control"  required="">
-	                  <label for="nid">Buying Price</label>
-	                  <small class="text-danger" v-if="errors.buying_price">{{ errors.buying_price[0] }}</small>
-	                </div>
-	               </div>
-	               <div class="col-md-4">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.selling_price" class="form-control"  required="">
-	                  <label for="phone">Selling Price </label>
-	                  <small class="text-danger" v-if="errors.selling_price">{{ errors.selling_price[0] }}</small>
-	                </div>
-	               </div>
-	             </div>
-	          </div><br>
-	          <div class="form-group">
-	              <div class="form-row">
-	               <div class="col-md-6">
-	                <div class="form-label-group">
-	                  <input type="date" v-model="form.buying_date" class="form-control"  required="">
-	                  <label for="nid">Buying Date</label>
-	                  <small class="text-danger" v-if="errors.buying_date">{{ errors.buying_date[0] }}</small>
-	                </div>
-	               </div>
-	               <div class="col-md-6">
-	                <div class="form-label-group">
-	                  <input type="text" v-model="form.product_quantity" class="form-control"  required="">
-	                  <label for="phone">Quantity  </label>
-	                  <small class="text-danger" v-if="errors.product_quantity">{{ errors.product_quantity[0] }}</small>
-	                </div>
-	               </div>
-	             </div>
-	          </div><br>
-               <div class="form-group">
-	              <div class="form-row">
+                  <label class="form-control-label">Product Name: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" v-model="form.product_name" >
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Product Code: <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text" v-model="form.product_code" >
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Quantity <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text"  v-model="form.product_quantity">
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group mg-b-10-force">
+                  <label class="form-control-label">Category: <span class="tx-danger">*</span></label>
+                  <select class="form-control select2" data-placeholder="Choose Category" v-model="form.category_id">
+                   
+                    <option :value="category.id" v-for="category in categories">{{ category.category_name }}</option>
+                    
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group mg-b-10-force">
+                  <label class="form-control-label">Sub Category: <span class="tx-danger">*</span></label>
+                  <select class="form-control select2" v-model="form.subcategory_id">
+                    
+                    <option :value="subcategory.id" v-for="subcategory in subcategories">{{ subcategory.subcategory_name }}</option>
+                    
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group mg-b-10-force">
+                  <label class="form-control-label">Brand: <span class="tx-danger">*</span></label>
+                  <select class="form-control select2" data-placeholder="Choose country" v-model="form.brand_id">
+                    <option label="Choose Brand"></option>
+                    
+                    <option :value="brand.id" v-for="brand in brands">{{ brand.brand_name }}</option>
+                    
+                  </select>
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Product Size: <span class="tx-danger">*</span></label><br>
+                  <input class="form-control" type="text" id="size" data-role="tagsinput" v-model="form.product_size">
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Product Color: <span class="tx-danger">*</span></label><br>
+                  <input class="form-control lg-4" type="text" data-role="tagsinput" id="color" v-model="form.product_color">
+                </div>
+              </div><!-- col-4 -->
+              <div class="col-lg-4">
+                <div class="form-group">
+                  <label class="form-control-label">Selling Price <span class="tx-danger">*</span></label>
+                  <input class="form-control" type="text"  placeholder="Selling Price" v-model="form.selling_price">
+                </div>
+              </div><!-- col-4 -->
 
-	               <div class="col-md-6">
-	                <div class="form-label-group">
-	                 <input type="file" class="btn btn-info" @change="onFileselected">
-	       
-	                  <small class="text-danger" v-if="errors.image">{{ errors.image[0] }}</small>
-	                </div>
-	               </div>
-	                <div class="col-md-6">
-	                	<img :src="form.image" style="height:40px; width: 40px;">
-	                </div>
-	             </div>
-	          </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label class="form-control-label">Product Details<span class="tx-danger">*</span></label>
+                   <textarea class="form-control" id="summernote">
+                    
+                   </textarea>
+                </div>  
+              </div>
+              <div class="col-lg-12">
+                <div class="form-group">
+                  <label class="form-control-label">Video Link<span class="tx-danger">*</span></label>
+                   <input class="form-control" placeholder="video link" v-model="form.video_link">
+                </div>  
+              </div>
 
-               <button type="submit" class="btn btn-success">Submit</button>
-              </form>
-          </div>
-          <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-         </div>
-       </div>
-   </div>
+              <div class="col-lg-4">
+                <label>Image One (Main Thumbnail One)<span class="tx-danger">*</span></label>
+                <label class="custom-file">
+                <input type="file" id="file" class="custom-file-input" required="" @change="onFileselectedone">
+                <span class="custom-file-control"></span>
+                <img :src="form.image_one" id="one" style="height:40px; width:40px," >
+              </label>
+              </div>
+              <div class="col-lg-4">
+                <label>Image One (Main Thumbnail Two)<span class="tx-danger">*</span></label>
+                <label class="custom-file">
+                <input type="file" id="file" class="custom-file-input" required="" @change="onFileselectedtwo">
+                <span class="custom-file-control"></span>
+                <img :src="form.image_one_1" id="one_1" style="height:40px; width:40px,">
+              </label>
+              </div>
+              <div class="col-lg-4">
+                <label>Image Two <span class="tx-danger">*</span></label>
+                <label class="custom-file">
+                <input type="file" id="file" class="custom-file-input" required="" @change="onFileselectedthree">
+                <span class="custom-file-control"></span>
+                <img :src="form.image_two" id="two" style="height:40px; width:40px,">
+              </label>
+              </div>
+              <div class="col-lg-4">
+                <label>Image Three <span class="tx-danger">*</span></label>
+                <label class="custom-file">
+                <input type="file" id="file" class="custom-file-input" required="" @change="onFileselectedfour">
+                <span class="custom-file-control"></span>
+                <img :src="form.image_three" id="three" style="height:40px; width:40px,">
+              </label>
+              </div>
+              <div class="col-lg-4">
+                <label>Image Four <span class="tx-danger">*</span></label>
+                <label class="custom-file">
+                <input type="file" id="file" class="custom-file-input" required="" @change="onFileselectedfive">
+                <span class="custom-file-control"></span>
+                <img :src="form.image_four" id="four" style="height:40px; width:40px,">
+              </label>
+              </div>
+            </div><!-- row -->
+            <br><hr>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.newarrivals_one" value="1">
+            <span>New Arrivals One</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.newarrivals_two" value="1">
+            <span>New Arrivals Two</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.newarrivals_three" value="1">
+            <span>New Arrivals Three</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.newarrivals_four" value="1">
+            <span>New Arrivals Four</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.newarrivals_five" value="1">
+            <span>New Arrivals Five</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.latest_design" value="1">
+            <span>Latest Design</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+            <input type="checkbox" v-model="form.special_offer" value="1">
+            <span>Special Offer</span>
+          </label>
+              </div>
+              <div class="col-lg-4">
+                <label class="ckbox">
+                  <input type="checkbox" v-model="form.collection" value="1">
+                  <span>Collection</span>
+                </label>
+              </div>
+
+            </div>
+
+            <br><br><hr>
+            <div class="form-layout-footer">
+              <button class="btn btn-info mg-r-5" type="submit">Submit </button>
+            </div><!-- form-layout-footer -->
+          </div><!-- form-layout -->
+          </form>
+        </div><!-- card -->
+       
+      </div><!-- sl-pagebody --> 
+    </div><!-- sl-mainpanel -->
+</div>
 </template>
 
 <script>
 
     export default {
-    	mounted(){
+      mounted(){
             if (!User.loggedIn()) {
-               this.$router.push({ name:'/' })
+               this.$router.push({ name:'admin' })
             } 
         },
         data(){
-        	return{
-        		form:{
-        			product_name :'',
-        			product_code :'',
-        			category_id:'',
-        			supplier_id:'',
-        			root :'',
-        			buying_price:'',
-        			selling_price : '',
-        			buying_date:'',
-        			image:'',
-        			product_quantity:''
-        		},
-        		errors:{},
-        		categories:{},
-        		suppliers:{},
-        	}
+          return{
+            form:{
+              product_name :'',
+              product_code :'',
+              product_quantity:'',
+              category_id:'',
+              subcategory_id :'',
+              brand_id:'',
+              product_size : '',
+              product_color:'',
+              selling_price:'',
+              product_details:'',
+              video_link:'',
+              image_one:'',
+              image_one_1:'',
+              image_two:'',
+              image_three:'',
+              image_four:'',
+              newarrivals_one:'',
+              newarrivals_two:'',
+              newarrivals_three:'',
+              newarrivals_four:'',
+              newarrivals_five:'',
+              latest_design:'',
+              special_offer:'',
+              collection:'',
+            },
+            errors:{},
+            categories:{},
+            subcategories:{},
+            brands:{},
+          }
         },
         
-        methods:{ 	
-        	onFileselected(event){
-        		let file=event.target.files[0];
-        		if (file.size > 1048770) {
-        			Notification.image_validation()
-        		}else{
-        			let reader = new FileReader();
-        			reader.onload = event => {
-        				this.form.image = event.target.result
 
-        				//console.log(event.target.result);
-        			};
-        			reader.readAsDataURL(file);
+        methods:{   
+          onFileselectedone(event){
+            let file=event.target.files[0];
+            if (file.size > 1048770) {
+              Notification.image_validation()
+            }else{
+              let reader = new FileReader();
+              reader.onload = event => {
+                this.form.image_one = event.target.result
 
-        		}
-        	},
-        	productInsert(){
-        		axios.post('/api/product/',this.form)
-        		.then(() => {
-        			this.$router.push({ name: 'product' })
-        			Notification.success()
-        		})
-        		.catch(error => this.errors = error.response.data.errors)
-        	},
-        	
+                console.log(event.target.result);
+              };
+              reader.readAsDataURL(file);
+
+            }
+          },
+          onFileselectedtwo(event){
+            let file=event.target.files[0];
+            if (file.size > 1048770) {
+              Notification.image_validation()
+            }else{
+              let reader = new FileReader();
+              reader.onload = event => {
+                this.form.image_one_1 = event.target.result
+
+                console.log(event.target.result);
+              };
+              reader.readAsDataURL(file);
+
+            }
+          },
+          onFileselectedthree(event){
+            let file=event.target.files[0];
+            if (file.size > 1048770) {
+              Notification.image_validation()
+            }else{
+              let reader = new FileReader();
+              reader.onload = event => {
+                this.form.image_two = event.target.result
+
+                console.log(event.target.result);
+              };
+              reader.readAsDataURL(file);
+
+            }
+          },
+          onFileselectedfour(event){
+            let file=event.target.files[0];
+            if (file.size > 1048770) {
+              Notification.image_validation()
+            }else{
+              let reader = new FileReader();
+              reader.onload = event => {
+                this.form.image_three = event.target.result
+
+                console.log(event.target.result);
+              };
+              reader.readAsDataURL(file);
+
+            }
+          },
+          onFileselectedfive(event){
+            let file=event.target.files[0];
+            if (file.size > 1048770) {
+              Notification.image_validation()
+            }else{
+              let reader = new FileReader();
+              reader.onload = event => {
+                this.form.image_four = event.target.result
+
+                console.log(event.target.result);
+              };
+              reader.readAsDataURL(file);
+
+            }
+          },
+          productInsert(){
+            axios.post('/api/product/',this.form)
+            .then(() => {
+              this.$router.push({ name: 'all-product' })
+              Notification.success()
+            })
+            .catch(error => this.errors = error.response.data.errors)
+          },
+
         },
-        created(){
-        	axios.get('/api/category')
-        	.then(({data}) => (this.categories = data))
 
-        	axios.get('/api/supplier/')
-        	.then(({data}) => (this.suppliers = data))
+          created(){
+          axios.get('/api/all-category')
+          .then(({data}) => (this.categories = data))
+
+          axios.get('/api/all-subcategory/')
+          .then(({data}) => (this.subcategories = data))
+
+          axios.get('/api/all-brand/')
+          .then(({data}) => (this.brands = data))
         },
-    	
-    }
-
-
-
-  
+           
+      }
+     
 </script>
 
 <style>
 	
-#add_new{
-	float: right;
-}
-
 </style>

@@ -15,7 +15,7 @@
         <button type="submit" class="btn btn-info btn-block">Forget Password</button>
 
         <div class="mg-t-20 tx-center">
-          <router-link to="/" class="tx-info">Back to LogIn</router-link></div>
+          <router-link to="admin" class="tx-info">Back to LogIn</router-link></div>
       </div><!-- login-wrapper -->
     </div><!-- d-flex -->
 </div>
